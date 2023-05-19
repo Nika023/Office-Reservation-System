@@ -17,6 +17,9 @@ public class OfficeDto {
     this.closingTime = office.getClosingTime();
   }
 
+  public OfficeDto() {
+  }
+
   public String getName() {
     return name;
   }

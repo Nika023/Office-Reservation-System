@@ -26,4 +26,18 @@ public class OfficeServiceImpl implements OfficeService {
     }
     return allOffices;
   }
+
+  @Override
+  public OfficeDto showOneOffice(Long id) {
+    OfficeDto wanted = new OfficeDto();
+    if (officeRepository.findById(id).isPresent()) {
+      wanted = new OfficeDto(officeRepository.findById(id).get());
+    }
+    return wanted;
+  }
+
+  @Override
+  public boolean checkIfExist(Long id) {
+    return officeRepository.findById(id).isPresent();
+  }
 }

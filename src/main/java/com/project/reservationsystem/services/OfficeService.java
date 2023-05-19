@@ -6,4 +6,8 @@ import java.util.List;
 public interface OfficeService {
 
   List<OfficeDto> listAllOffices();
+
+  OfficeDto showOneOffice(Long id);
+
+  boolean checkIfExist(Long id);
 }
