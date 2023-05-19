@@ -30,4 +30,27 @@ public class Office {
     this.openingTime = openingTime;
     this.closingTime = closingTime;
   }
+
+  public Office() {
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public Time getOpeningTime() {
+    return openingTime;
+  }
+
+  public Time getClosingTime() {
+    return closingTime;
+  }
 }
