@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,6 +17,9 @@ public class Reservation {
   private Long id;
   private Time startingTime;
   private Time endingTime;
-  //private OfficeUser employee;
-  // private Office office;
+
+  @ManyToOne
+  private OfficeUser employee;
+  @ManyToOne
+  private Office office;
 }

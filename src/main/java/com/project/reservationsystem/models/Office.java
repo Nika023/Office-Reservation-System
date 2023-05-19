@@ -1,10 +1,12 @@
 package com.project.reservationsystem.models;
 
 import java.sql.Time;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -19,4 +21,6 @@ public class Office {
   private Time openingTime;
   private Time closingTime;
 
+  @OneToMany
+  private List<Reservation> reservationList;
 }
