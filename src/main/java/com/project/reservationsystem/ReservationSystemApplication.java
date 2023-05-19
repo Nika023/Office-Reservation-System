@@ -11,20 +11,22 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ReservationSystemApplication implements CommandLineRunner {
 
-	private final OfficeRepository officeRepository;
+  private final OfficeRepository officeRepository;
 
-	@Autowired
-	public ReservationSystemApplication(OfficeRepository officeRepository) {
-		this.officeRepository = officeRepository;
-	}
+  @Autowired
+  public ReservationSystemApplication(OfficeRepository officeRepository) {
+    this.officeRepository = officeRepository;
+  }
 
-	public static void main(String[] args) {
-		SpringApplication.run(ReservationSystemApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(ReservationSystemApplication.class, args);
+  }
 
-	@Override
-	public void run(String... args) throws Exception {
-		officeRepository.save(new Office("O1", "First floor, big windows", new Time(8,0,0), new Time(15,0,0)));
-		officeRepository.save(new Office("O2", "First floor, coffee machine inside", new Time(8,0,0), new Time(15,0,0)));
-	}
+  @Override
+  public void run(String... args) throws Exception {
+    officeRepository.save(
+        new Office("O1", "First floor, big windows", new Time(8, 0, 0), new Time(15, 0, 0)));
+    officeRepository.save(new Office("O2", "First floor, coffee machine inside", new Time(8, 0, 0),
+        new Time(15, 0, 0)));
+  }
 }

@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OfficeServiceImpl implements OfficeService{
+public class OfficeServiceImpl implements OfficeService {
+
   private OfficeRepository officeRepository;
 
   @Autowired
@@ -20,7 +21,7 @@ public class OfficeServiceImpl implements OfficeService{
   @Override
   public List<OfficeDto> listAllOffices() {
     List<OfficeDto> allOffices = new ArrayList<>();
-    for(Office o : officeRepository.findAll()){
+    for (Office o : officeRepository.findAll()) {
       allOffices.add(new OfficeDto(o));
     }
     return allOffices;

@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class OfficeController {
 
   private OfficeServiceImpl officeService;
+
   @Autowired
   public OfficeController(OfficeServiceImpl officeService) {
     this.officeService = officeService;
   }
 
   @GetMapping("/offices")
-  public ResponseEntity<List<OfficeDto>> allOffices(){
+  public ResponseEntity<List<OfficeDto>> allOffices() {
     return ResponseEntity.status(200).body(officeService.listAllOffices());
   }
 }
