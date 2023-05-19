@@ -23,4 +23,11 @@ public class Office {
 
   @OneToMany
   private List<Reservation> reservationList;
+
+  public Office(String name, String description, Time openingTime, Time closingTime) {
+    this.name = name;
+    this.description = description;
+    this.openingTime = openingTime;
+    this.closingTime = closingTime;
+  }
 }
