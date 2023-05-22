@@ -16,20 +16,20 @@ public class OfficeUser {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  private String name;
+  private String username;
   private String password;
   private String email;
 
   @OneToMany
   private List<Reservation> reservationList;
 
-  public OfficeUser(String name, String password, String email) {
-    this.name = name;
+  public OfficeUser(String username, String password, String email) {
+    this.username = username;
     this.password = password;
     this.email = email;
   }
   public OfficeUser(RegistrationDto newUser) {
-    this.name = newUser.getUsername();
+    this.username = newUser.getUsername();
     this.password = newUser.getPassword();
     this.email = newUser.getEmail();
   }
@@ -41,8 +41,8 @@ public class OfficeUser {
     return id;
   }
 
-  public String getName() {
-    return name;
+  public String getUsername() {
+    return username;
   }
 
   public String getPassword() {
