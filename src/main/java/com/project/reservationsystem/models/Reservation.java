@@ -22,4 +22,27 @@ public class Reservation {
   private OfficeUser employee;
   @ManyToOne
   private Office office;
+
+  public Reservation(Time startingTime, Time endingTime, OfficeUser employee,
+      Office office) {
+    this.startingTime = startingTime;
+    this.endingTime = endingTime;
+    this.employee = employee;
+    this.office = office;
+  }
+
+  public Reservation() {
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public Time getStartingTime() {
+    return startingTime;
+  }
+
+  public Time getEndingTime() {
+    return endingTime;
+  }
 }

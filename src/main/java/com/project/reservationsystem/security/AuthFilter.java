@@ -5,6 +5,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,8 +15,17 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 public class AuthFilter extends OncePerRequestFilter {
 
+
   private JwtGenerator jwtGenerator;
+
   private OfficeUserDetailsService officeUserDetailsService;
+
+  @Autowired
+  public AuthFilter(JwtGenerator jwtGenerator, OfficeUserDetailsService officeUserDetailsService) {
+    this.jwtGenerator = jwtGenerator;
+    this.officeUserDetailsService = officeUserDetailsService;
+  }
+
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
@@ -29,9 +39,8 @@ public class AuthFilter extends OncePerRequestFilter {
           userDetails.getAuthorities());
       authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
       SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-    } else {
-      filterChain.doFilter(request, response);
     }
+      filterChain.doFilter(request, response);
   }
   private String getJWTFromRequest(HttpServletRequest request) {
     String bearerToken = request.getHeader("Authorization");
