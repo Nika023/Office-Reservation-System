@@ -21,6 +21,9 @@ public class RegistrationController {
   @PostMapping("/register")
   public ResponseEntity register(@RequestBody RegistrationDto registrationDto){
     registrationService.checkUsername(registrationDto);
+    registrationService.checkRequestBody(registrationDto);
+    registrationService.checkEmail(registrationDto);
+    registrationService.checkPassword(registrationDto);
     registrationService.save(registrationDto);
     return ResponseEntity.ok().body("Welcome onboard!");
   }
