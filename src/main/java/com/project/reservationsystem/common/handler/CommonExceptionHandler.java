@@ -5,6 +5,8 @@ import com.project.reservationsystem.common.exceptions.EmailNotValidException;
 import com.project.reservationsystem.common.exceptions.PasswordNotValidException;
 import com.project.reservationsystem.common.exceptions.RequestBodyUncompleteException;
 import com.project.reservationsystem.common.exceptions.UsernameIsTakenException;
+import com.project.reservationsystem.common.exceptions.WrongPasswordException;
+import com.project.reservationsystem.common.exceptions.WrongUsernameException;
 import com.project.reservationsystem.dtos.ErrorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -42,5 +44,17 @@ public class CommonExceptionHandler {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ErrorDto passwordIsNotValid() {
     return new ErrorDto("400", "Please make sure that password is at least 8 characters long");
+  }
+
+  @ExceptionHandler(WrongUsernameException.class)
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  public ErrorDto wrongUsername() {
+    return new ErrorDto("401", "Wrong username");
+  }
+
+  @ExceptionHandler(WrongPasswordException.class)
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  public ErrorDto wrongPassword() {
+    return new ErrorDto("401", "Wrong password");
   }
 }
