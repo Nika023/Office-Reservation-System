@@ -1,5 +1,6 @@
 package com.project.reservationsystem.services;
 
+import com.project.reservationsystem.common.exceptions.UsernameIsTakenException;
 import com.project.reservationsystem.dtos.RegistrationDto;
 import com.project.reservationsystem.models.OfficeUser;
 import com.project.reservationsystem.repositories.OfficeUserRepository;
@@ -24,5 +25,12 @@ public class RegistrationServiceImpl implements RegistrationService {
   public void save(RegistrationDto user) {
     officeUserRepository.save(new OfficeUser(user.getUsername(), passwordEncoder.encode(
         user.getPassword()), user.getEmail()));
+  }
+
+  @Override
+  public void checkUsername(RegistrationDto user) {
+    if (officeUserRepository.findFirstByUsername(user.getUsername()).isPresent()){
+      throw new UsernameIsTakenException();
+    }
   }
 }
