@@ -2,8 +2,10 @@ package com.project.reservationsystem.common.handler;
 
 import com.project.reservationsystem.common.exceptions.EmailIsTakenException;
 import com.project.reservationsystem.common.exceptions.EmailNotValidException;
+import com.project.reservationsystem.common.exceptions.InvalidOfficeName;
 import com.project.reservationsystem.common.exceptions.PasswordNotValidException;
 import com.project.reservationsystem.common.exceptions.RequestBodyUncompleteException;
+import com.project.reservationsystem.common.exceptions.TimeConflictException;
 import com.project.reservationsystem.common.exceptions.UsernameIsTakenException;
 import com.project.reservationsystem.common.exceptions.WrongPasswordException;
 import com.project.reservationsystem.common.exceptions.WrongUsernameException;
@@ -56,5 +58,18 @@ public class CommonExceptionHandler {
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   public ErrorDto wrongPassword() {
     return new ErrorDto("401", "Wrong password");
+  }
+
+  @ExceptionHandler(TimeConflictException.class)
+  @ResponseStatus(HttpStatus.CONFLICT)
+  public ErrorDto timeConflict() {
+    return new ErrorDto("409",
+        "Your reservation is in conflict with another reservation, please change the time or date of your reservation");
+  }
+
+  @ExceptionHandler(InvalidOfficeName.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ErrorDto invalidOfficeName() {
+    return new ErrorDto("400", "This office is not in database");
   }
 }

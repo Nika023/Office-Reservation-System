@@ -20,9 +20,11 @@ public class ReservationController {
     this.reservationService = reservationService;
   }
 
-  @PostMapping ("new-reservation")
-  public ResponseEntity testing(@RequestBody ReservationRequestDto reservationRequestDto, @RequestHeader(name = "Authorization") String token){
-    reservationService.saveReservation(reservationRequestDto,token);
+  @PostMapping("new-reservation")
+  public ResponseEntity testing(@RequestBody ReservationRequestDto reservationRequestDto,
+      @RequestHeader(name = "Authorization") String token) {
+    reservationService.checkAvailability(reservationRequestDto);
+    reservationService.saveReservation(reservationRequestDto, token);
     return ResponseEntity.ok().body("Working");
   }
 }

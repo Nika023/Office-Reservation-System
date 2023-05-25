@@ -1,5 +1,6 @@
 package com.project.reservationsystem.models;
 
+import java.sql.Date;
 import java.sql.Time;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,18 +18,20 @@ public class Reservation {
   private Long id;
   private Time startingTime;
   private Time endingTime;
+  private Date date;
 
   @ManyToOne
   private OfficeUser employee;
   @ManyToOne
   private Office office;
 
-  public Reservation(Time startingTime, Time endingTime, OfficeUser employee,
-      Office office) {
+  public Reservation(Time startingTime, Time endingTime, OfficeUser employee, Office office,
+      Date date) {
     this.startingTime = startingTime;
     this.endingTime = endingTime;
     this.employee = employee;
     this.office = office;
+    this.date = date;
   }
 
   public Reservation() {
@@ -44,5 +47,9 @@ public class Reservation {
 
   public Time getEndingTime() {
     return endingTime;
+  }
+
+  public Date getDate() {
+    return date;
   }
 }
