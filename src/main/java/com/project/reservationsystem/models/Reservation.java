@@ -52,4 +52,12 @@ public class Reservation {
   public Date getDate() {
     return date;
   }
+
+  public OfficeUser getEmployee() {
+    return employee;
+  }
+
+  public Office getOffice() {
+    return office;
+  }
 }
