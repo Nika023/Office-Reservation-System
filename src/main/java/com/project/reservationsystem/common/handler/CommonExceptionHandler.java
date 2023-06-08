@@ -6,8 +6,10 @@ import com.project.reservationsystem.common.exceptions.InvalidOfficeName;
 import com.project.reservationsystem.common.exceptions.PasswordNotValidException;
 import com.project.reservationsystem.common.exceptions.RequestBodyUncompleteException;
 import com.project.reservationsystem.common.exceptions.TimeConflictException;
+import com.project.reservationsystem.common.exceptions.TimeOutOfOpeningTimeException;
 import com.project.reservationsystem.common.exceptions.UsernameIsTakenException;
 import com.project.reservationsystem.common.exceptions.WrongPasswordException;
+import com.project.reservationsystem.common.exceptions.WrongTimeFormatException;
 import com.project.reservationsystem.common.exceptions.WrongUsernameException;
 import com.project.reservationsystem.dtos.ErrorDto;
 import org.springframework.http.HttpStatus;
@@ -71,5 +73,17 @@ public class CommonExceptionHandler {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ErrorDto invalidOfficeName() {
     return new ErrorDto("400", "This office is not in database");
+  }
+
+  @ExceptionHandler(TimeOutOfOpeningTimeException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ErrorDto timeslotNotInOpeningHours() {
+    return new ErrorDto("400", "Your reservation time is not during opening hours");
+  }
+
+  @ExceptionHandler(WrongTimeFormatException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ErrorDto timeFormatIsWrong() {
+    return new ErrorDto("400", "Time you provided id not set correctly");
   }
 }

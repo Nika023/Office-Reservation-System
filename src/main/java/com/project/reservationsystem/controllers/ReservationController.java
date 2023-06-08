@@ -23,6 +23,8 @@ public class ReservationController {
   @PostMapping("new-reservation")
   public ResponseEntity testing(@RequestBody ReservationRequestDto reservationRequestDto,
       @RequestHeader(name = "Authorization") String token) {
+    reservationService.checkOfficeName(reservationRequestDto);
+    reservationService.checkOpeningHours(reservationRequestDto);
     reservationService.checkAvailability(reservationRequestDto);
     reservationService.saveReservation(reservationRequestDto, token);
     return ResponseEntity.ok().body("Working");

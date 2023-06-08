@@ -2,6 +2,8 @@ package com.project.reservationsystem.services;
 
 import com.project.reservationsystem.common.exceptions.InvalidOfficeName;
 import com.project.reservationsystem.common.exceptions.TimeConflictException;
+import com.project.reservationsystem.common.exceptions.TimeOutOfOpeningTimeException;
+import com.project.reservationsystem.common.exceptions.WrongTimeFormatException;
 import com.project.reservationsystem.dtos.ReservationRequestDto;
 import com.project.reservationsystem.models.Office;
 import com.project.reservationsystem.models.OfficeUser;
@@ -43,21 +45,33 @@ public class ReservationServiceImpl implements ReservationService {
     reservationRepository.save(reservation);
   }
 
-  public void checkAvailability(ReservationRequestDto reservationRequestDto) {
-    Long id = 0L;
-    if (officeRepository.findFirstByName(reservationRequestDto.getOfficeName()) != null) {
-      id = officeRepository.findFirstByName(reservationRequestDto.getOfficeName()).getId();
-    } else {
+  public void checkOfficeName(ReservationRequestDto reservationRequestDto) {
+    if (officeRepository.findFirstByName(reservationRequestDto.getOfficeName()) == null) {
       throw new InvalidOfficeName();
     }
+  }
+
+  public void checkAvailability(ReservationRequestDto reservationRequestDto) {
+    Long id = officeRepository.findFirstByName(reservationRequestDto.getOfficeName()).getId();
     List<Reservation> reservationOnSameOfficeSameDay = reservationRepository.findAllByOfficeIdAndDate(
         id, reservationRequestDto.getDate());
     for (Reservation reservation : reservationOnSameOfficeSameDay) {
-      if (reservation.getStartingTime().before(reservationRequestDto.getEndTime())) {
-        throw new TimeConflictException();
-      } else if (reservation.getEndingTime().after(reservationRequestDto.getStartingTime())) {
+      if (reservation.getStartingTime().before(reservationRequestDto.getEndTime()) &&
+          reservation.getEndingTime().after(reservationRequestDto.getStartingTime())) {
         throw new TimeConflictException();
       }
+    }
+  }
+
+
+  public void checkOpeningHours(ReservationRequestDto reservationRequestDto) {
+    if(reservationRequestDto.getEndTime().before(reservationRequestDto.getStartingTime())){
+      throw new WrongTimeFormatException();
+    }
+    Office office = officeRepository.findFirstByName(reservationRequestDto.getOfficeName());
+    if (reservationRequestDto.getStartingTime().before(office.getOpeningTime())
+        || reservationRequestDto.getEndTime().after(office.getClosingTime())) {
+      throw new TimeOutOfOpeningTimeException();
     }
   }
 }
