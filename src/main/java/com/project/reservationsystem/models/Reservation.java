@@ -60,4 +60,5 @@ public class Reservation {
   public Office getOffice() {
     return office;
   }
+
 }

@@ -2,7 +2,9 @@ package com.project.reservationsystem.common.handler;
 
 import com.project.reservationsystem.common.exceptions.EmailIsTakenException;
 import com.project.reservationsystem.common.exceptions.EmailNotValidException;
+import com.project.reservationsystem.common.exceptions.InvalidIdException;
 import com.project.reservationsystem.common.exceptions.InvalidOfficeName;
+import com.project.reservationsystem.common.exceptions.NotAuthorizedForActionException;
 import com.project.reservationsystem.common.exceptions.PasswordNotValidException;
 import com.project.reservationsystem.common.exceptions.RequestBodyUncompleteException;
 import com.project.reservationsystem.common.exceptions.TimeConflictException;
@@ -85,5 +87,17 @@ public class CommonExceptionHandler {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ErrorDto timeFormatIsWrong() {
     return new ErrorDto("400", "Time you provided id not set correctly");
+  }
+
+  @ExceptionHandler(InvalidIdException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ErrorDto invalidId() {
+    return new ErrorDto("400", "This ID is not in database.");
+  }
+
+  @ExceptionHandler(NotAuthorizedForActionException.class)
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  public ErrorDto notAuthorized() {
+    return new ErrorDto("401", "You are not authorized to perform this action.");
   }
 }

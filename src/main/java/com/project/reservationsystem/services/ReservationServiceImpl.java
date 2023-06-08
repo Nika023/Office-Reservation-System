@@ -1,9 +1,11 @@
 package com.project.reservationsystem.services;
 
+import com.project.reservationsystem.common.exceptions.InvalidIdException;
 import com.project.reservationsystem.common.exceptions.InvalidOfficeName;
 import com.project.reservationsystem.common.exceptions.TimeConflictException;
 import com.project.reservationsystem.common.exceptions.TimeOutOfOpeningTimeException;
 import com.project.reservationsystem.common.exceptions.WrongTimeFormatException;
+import com.project.reservationsystem.dtos.MyReservationDto;
 import com.project.reservationsystem.dtos.ReservationRequestDto;
 import com.project.reservationsystem.dtos.ReservationResponseDto;
 import com.project.reservationsystem.models.Office;
@@ -77,13 +79,38 @@ public class ReservationServiceImpl implements ReservationService {
     }
   }
 
-  public List<ReservationResponseDto> reservationsByEmployee(String token){
+  public List<MyReservationDto> reservationsByEmployee(String token){
     OfficeUser employee = officeUserRepository.findFirstByUsername(jwtGenerator.getUsernameFromJWT(token.substring(7))).get();
     List<Reservation> reservationList = reservationRepository.findAllByEmployee(employee);
+    List<MyReservationDto> responseDtoList = new ArrayList<>();
+    for (Reservation r : reservationList){
+      responseDtoList.add(new MyReservationDto(r));
+    }
+    return responseDtoList;
+  }
+  public List<ReservationResponseDto> reservationsByOffice(String officeName){
+    if (officeRepository.findFirstByName(officeName) == null){
+      throw new InvalidOfficeName();
+    }
+    Office office = officeRepository.findFirstByName(officeName);
+    List<Reservation> reservationList = reservationRepository.findAllByOffice(office);
     List<ReservationResponseDto> responseDtoList = new ArrayList<>();
     for (Reservation r : reservationList){
       responseDtoList.add(new ReservationResponseDto(r));
     }
     return responseDtoList;
+  }
+  public void deleteReservation(String token, Long id){
+    if (!reservationRepository.findById(id).isPresent()){
+      throw new InvalidIdException();
+    } else {
+      Reservation reservation = reservationRepository.findById(id).get();
+      OfficeUser user = officeUserRepository.findFirstByUsername(jwtGenerator.getUsernameFromJWT(token.substring(7))).get();
+      if (reservation.getEmployee().getUsername().equals(user.getUsername())){
+        reservationRepository.delete(reservation);
+      } else {
+
+      }
+    }
   }
 }
