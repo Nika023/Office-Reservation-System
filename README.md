@@ -8,13 +8,13 @@ The application is secured with JSON Web Token with use of Spring Security. All 
 Git and GitHub were used throughout the whole project. 
 
 # API endpoints
--/register
--/login
--/offices
--/office/{id}
--/new-reservation
--/my-reservations
--/reservation/{id}
+- /register
+- /login
+- /offices
+- /office/{id}
+- /new-reservation
+- /my-reservations
+- /reservation/{id}
 
 # Dependecies
 - Java Development Kit - JDK 8
