@@ -1,6 +1,7 @@
 package com.project.reservationsystem.common.handler;
 
 import com.project.reservationsystem.common.exceptions.EmailIsTakenException;
+import com.project.reservationsystem.common.exceptions.EmailNotSentException;
 import com.project.reservationsystem.common.exceptions.EmailNotValidException;
 import com.project.reservationsystem.common.exceptions.InvalidIdException;
 import com.project.reservationsystem.common.exceptions.InvalidOfficeName;
@@ -99,5 +100,10 @@ public class CommonExceptionHandler {
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   public ErrorDto notAuthorized() {
     return new ErrorDto("401", "You are not authorized to perform this action.");
+  }
+  @ExceptionHandler(EmailNotSentException.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  public ErrorDto emailNotSent() {
+    return new ErrorDto("200", "The message was not sent.");
   }
 }

@@ -1,5 +1,6 @@
 package com.project.reservationsystem.models;
 
+import com.project.reservationsystem.dtos.ReservationRequestDto;
 import java.sql.Date;
 import java.sql.Time;
 import javax.persistence.Entity;

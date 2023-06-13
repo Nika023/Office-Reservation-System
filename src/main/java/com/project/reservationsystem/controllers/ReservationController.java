@@ -1,6 +1,8 @@
 package com.project.reservationsystem.controllers;
 
 import com.project.reservationsystem.dtos.ReservationRequestDto;
+import com.project.reservationsystem.models.Reservation;
+import com.project.reservationsystem.services.EmailServiceImpl;
 import com.project.reservationsystem.services.ReservationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReservationController {
 
   private final ReservationServiceImpl reservationService;
+  private final EmailServiceImpl emailService;
 
   @Autowired
-  public ReservationController(ReservationServiceImpl reservationService) {
+  public ReservationController(ReservationServiceImpl reservationService, EmailServiceImpl emailService) {
     this.reservationService = reservationService;
+    this.emailService = emailService;
   }
 
   @PostMapping("new-reservation")
@@ -30,7 +34,8 @@ public class ReservationController {
     reservationService.checkOpeningHours(reservationRequestDto);
     reservationService.checkAvailability(reservationRequestDto);
     reservationService.saveReservation(reservationRequestDto, token);
-    return ResponseEntity.ok().body("Your reservation has been made.");
+    emailService.sendMail(token,reservationRequestDto);
+    return ResponseEntity.ok().body("Your reservation has been made. We sent you the mail with all the information.");
   }
 
   @GetMapping("my-reservations")
