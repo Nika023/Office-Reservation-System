@@ -19,7 +19,7 @@ public class RegistrationController {
   }
 
   @PostMapping("/register")
-  public ResponseEntity register(@RequestBody RegistrationDto registrationDto){
+  public ResponseEntity register(@RequestBody RegistrationDto registrationDto) {
     registrationService.checkUsername(registrationDto);
     registrationService.checkRequestBody(registrationDto);
     registrationService.checkEmail(registrationDto);

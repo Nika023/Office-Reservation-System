@@ -28,6 +28,7 @@ public class OfficeUser {
     this.password = password;
     this.email = email;
   }
+
   public OfficeUser(RegistrationDto newUser) {
     this.username = newUser.getUsername();
     this.password = newUser.getPassword();

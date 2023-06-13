@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
   List<Reservation> findAllByOfficeIdAndDate(Long id, Date date);
+
   List<Reservation> findAllByEmployee(OfficeUser employee);
+
   List<Reservation> findAllByOffice(Office office);
 }

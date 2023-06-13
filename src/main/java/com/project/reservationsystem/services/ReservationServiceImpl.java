@@ -60,8 +60,8 @@ public class ReservationServiceImpl implements ReservationService {
     List<Reservation> reservationOnSameOfficeSameDay = reservationRepository.findAllByOfficeIdAndDate(
         id, reservationRequestDto.getDate());
     for (Reservation reservation : reservationOnSameOfficeSameDay) {
-      if (reservation.getStartingTime().before(reservationRequestDto.getEndTime()) &&
-          reservation.getEndingTime().after(reservationRequestDto.getStartingTime())) {
+      if (reservation.getStartingTime().before(reservationRequestDto.getEndTime())
+          && reservation.getEndingTime().after(reservationRequestDto.getStartingTime())) {
         throw new TimeConflictException();
       }
     }
@@ -69,7 +69,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 
   public void checkOpeningHours(ReservationRequestDto reservationRequestDto) {
-    if(reservationRequestDto.getEndTime().before(reservationRequestDto.getStartingTime())){
+    if (reservationRequestDto.getEndTime().before(reservationRequestDto.getStartingTime())) {
       throw new WrongTimeFormatException();
     }
     Office office = officeRepository.findFirstByName(reservationRequestDto.getOfficeName());
@@ -79,37 +79,39 @@ public class ReservationServiceImpl implements ReservationService {
     }
   }
 
-  public List<MyReservationDto> reservationsByEmployee(String token){
-    OfficeUser employee = officeUserRepository.findFirstByUsername(jwtGenerator.getUsernameFromJWT(token.substring(7))).get();
+  public List<MyReservationDto> reservationsByEmployee(String token) {
+    OfficeUser employee = officeUserRepository.findFirstByUsername(
+        jwtGenerator.getUsernameFromJWT(token.substring(7))).get();
     List<Reservation> reservationList = reservationRepository.findAllByEmployee(employee);
     List<MyReservationDto> responseDtoList = new ArrayList<>();
-    for (Reservation r : reservationList){
+    for (Reservation r : reservationList) {
       responseDtoList.add(new MyReservationDto(r));
     }
     return responseDtoList;
   }
-  public List<ReservationResponseDto> reservationsByOffice(String officeName){
-    if (officeRepository.findFirstByName(officeName) == null){
+
+  public List<ReservationResponseDto> reservationsByOffice(String officeName) {
+    if (officeRepository.findFirstByName(officeName) == null) {
       throw new InvalidOfficeName();
     }
     Office office = officeRepository.findFirstByName(officeName);
     List<Reservation> reservationList = reservationRepository.findAllByOffice(office);
     List<ReservationResponseDto> responseDtoList = new ArrayList<>();
-    for (Reservation r : reservationList){
+    for (Reservation r : reservationList) {
       responseDtoList.add(new ReservationResponseDto(r));
     }
     return responseDtoList;
   }
-  public void deleteReservation(String token, Long id){
-    if (!reservationRepository.findById(id).isPresent()){
+
+  public void deleteReservation(String token, Long id) {
+    if (!reservationRepository.findById(id).isPresent()) {
       throw new InvalidIdException();
     } else {
       Reservation reservation = reservationRepository.findById(id).get();
-      OfficeUser user = officeUserRepository.findFirstByUsername(jwtGenerator.getUsernameFromJWT(token.substring(7))).get();
-      if (reservation.getEmployee().getUsername().equals(user.getUsername())){
+      OfficeUser user = officeUserRepository.findFirstByUsername(
+          jwtGenerator.getUsernameFromJWT(token.substring(7))).get();
+      if (reservation.getEmployee().getUsername().equals(user.getUsername())) {
         reservationRepository.delete(reservation);
-      } else {
-
       }
     }
   }

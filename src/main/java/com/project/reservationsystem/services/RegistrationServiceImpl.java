@@ -20,7 +20,8 @@ public class RegistrationServiceImpl implements RegistrationService {
   private final PasswordEncoder passwordEncoder;
 
   @Autowired
-  public RegistrationServiceImpl(OfficeUserRepository officeUserRepository, PasswordEncoder passwordEncoder) {
+  public RegistrationServiceImpl(OfficeUserRepository officeUserRepository,
+      PasswordEncoder passwordEncoder) {
     this.officeUserRepository = officeUserRepository;
     this.passwordEncoder = passwordEncoder;
 
@@ -34,7 +35,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
   @Override
   public void checkUsername(RegistrationDto user) {
-    if (officeUserRepository.findFirstByUsername(user.getUsername()).isPresent()){
+    if (officeUserRepository.findFirstByUsername(user.getUsername()).isPresent()) {
       throw new UsernameIsTakenException();
     }
   }
@@ -42,16 +43,16 @@ public class RegistrationServiceImpl implements RegistrationService {
   @Override
   public void checkRequestBody(RegistrationDto user) {
     if (user.getUsername() == null || user.getUsername().isEmpty()
-    || user.getPassword() == null || user.getPassword().isEmpty()
-    || user.getEmail() == null || user.getEmail().isEmpty()){
-      throw  new RequestBodyUncompleteException();
+        || user.getPassword() == null || user.getPassword().isEmpty()
+        || user.getEmail() == null || user.getEmail().isEmpty()) {
+      throw new RequestBodyUncompleteException();
     }
   }
 
   @Override
   public void checkEmail(RegistrationDto user) {
 
-    if (officeUserRepository.existsByEmail(user.getEmail())){
+    if (officeUserRepository.existsByEmail(user.getEmail())) {
       throw new EmailIsTakenException();
     } else {
       String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
@@ -59,7 +60,7 @@ public class RegistrationServiceImpl implements RegistrationService {
       boolean emailIsValid = Pattern.compile(regexPattern)
           .matcher(user.getEmail())
           .matches();
-      if (!emailIsValid){
+      if (!emailIsValid) {
         throw new EmailNotValidException();
       }
     }
@@ -67,7 +68,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
   @Override
   public void checkPassword(RegistrationDto user) {
-    if (user.getPassword().length() < 8 ){
+    if (user.getPassword().length() < 8) {
       throw new PasswordNotValidException();
     }
   }

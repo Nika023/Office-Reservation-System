@@ -5,7 +5,6 @@ import com.project.reservationsystem.common.exceptions.WrongUsernameException;
 import com.project.reservationsystem.dtos.LoginDto;
 import com.project.reservationsystem.repositories.OfficeUserRepository;
 import com.project.reservationsystem.security.JwtGenerator;
-import com.sun.org.apache.xpath.internal.functions.WrongNumberArgsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,7 +22,8 @@ public class LoginServiceImpl implements LoginService {
   String token = "";
 
   @Autowired
-  public LoginServiceImpl(AuthenticationManager authenticationManager, JwtGenerator jwtGenerator, OfficeUserRepository officeUserRepository) {
+  public LoginServiceImpl(AuthenticationManager authenticationManager, JwtGenerator jwtGenerator,
+      OfficeUserRepository officeUserRepository) {
     this.authenticationManager = authenticationManager;
     this.jwtGenerator = jwtGenerator;
     this.officeUserRepository = officeUserRepository;
@@ -47,7 +47,7 @@ public class LoginServiceImpl implements LoginService {
 
   @Override
   public void checkIfUserExist(LoginDto loginDto) {
-    if (!officeUserRepository.findFirstByUsername(loginDto.getUsername()).isPresent()){
+    if (!officeUserRepository.findFirstByUsername(loginDto.getUsername()).isPresent()) {
       throw new WrongUsernameException();
     }
   }

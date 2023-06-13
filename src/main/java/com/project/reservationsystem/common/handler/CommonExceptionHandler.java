@@ -101,6 +101,7 @@ public class CommonExceptionHandler {
   public ErrorDto notAuthorized() {
     return new ErrorDto("401", "You are not authorized to perform this action.");
   }
+
   @ExceptionHandler(EmailNotSentException.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ErrorDto emailNotSent() {

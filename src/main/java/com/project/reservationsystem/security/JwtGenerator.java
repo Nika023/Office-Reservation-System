@@ -32,6 +32,7 @@ public class JwtGenerator {
         .signWith(SignatureAlgorithm.HS512, env.getProperty("JWT_SECRET_KEY"))
         .compact();
   }
+
   public boolean isTokenValid(String token) {
     try {
       Jwts.parser().setSigningKey(env.getProperty("JWT_SECRET_KEY")).parseClaimsJws(token);
@@ -40,6 +41,7 @@ public class JwtGenerator {
       throw new AuthenticationCredentialsNotFoundException("JWT is expired or incorrect");
     }
   }
+
   public String getUsernameFromJWT(String token) {
     Claims claims = Jwts.parser()
         .setSigningKey(env.getProperty("JWT_SECRET_KEY"))

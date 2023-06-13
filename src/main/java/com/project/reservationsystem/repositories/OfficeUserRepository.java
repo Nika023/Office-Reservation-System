@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface OfficeUserRepository extends JpaRepository<OfficeUser, Long> {
 
   Optional<OfficeUser> findFirstByUsername(String name);
+
   boolean existsByEmail(String email);
 }
